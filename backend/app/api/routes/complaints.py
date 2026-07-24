@@ -25,7 +25,7 @@ def process_complaint(payload: ProcessComplaintRequest):
     if not payload.complaint_text.strip():
         raise HTTPException(status_code=400, detail="Complaint text cannot be empty.")
     
-    result = process_complaint_workflow(payload.complaint_text)
+    result = process_complaint_workflow(payload.complaint_text, payload.current_form_data)
     
     return ComplaintExtractedData(
         customer_name=result.get("customer_name"),

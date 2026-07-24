@@ -17,14 +17,14 @@ export const ComplaintForm = () => {
   };
 
   const getSeverityBadgeClass = (severity) => {
-    if (!severity || severity.includes('Awaiting')) return 'severity-pill';
+    if (!severity || severity.includes('Awaiting') || severity.includes('Pending')) return 'severity-pill';
     const sev = severity.toLowerCase();
     if (sev.includes('critical')) return 'severity-pill severity-critical';
     if (sev.includes('major')) return 'severity-pill severity-major';
     return 'severity-pill severity-minor';
   };
 
-  const isAwaiting = (val) => typeof val === 'string' && val.includes('Awaiting');
+  const isAwaiting = (val) => !val || (typeof val === 'string' && (val.includes('Awaiting') || val.includes('Pending')));
 
   return (
     <div className="panel-card">
@@ -60,107 +60,111 @@ export const ComplaintForm = () => {
       <div className="panel-body">
         <form onSubmit={handleCommit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
-          {/* Metadata Grid */}
+          {/* General Information */}
+          <div style={{ marginTop: '0', marginBottom: '8px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-main)', borderBottom: '2px solid var(--border-color)', paddingBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            General Information
+          </div>
           <div className="form-grid">
-            
-            {/* Customer Name */}
             <div className="form-group">
               <label className="form-label">Customer / Reporting Source</label>
               <input
                 type="text"
-                className={`form-input ${isAwaiting(formData.customer_name) ? 'awaiting' : isExtracted ? 'highlighted' : ''}`}
+                className={`form-input ${isExtracted ? 'highlighted' : ''}`}
                 value={formData.customer_name || ''}
                 onChange={(e) => handleInputChange('customer_name', e.target.value)}
-                placeholder="Awaiting AI extraction..."
+                placeholder="e.g. Metro Health Hospital"
               />
             </div>
-
-            {/* Product Name */}
-            <div className="form-group">
-              <label className="form-label">Product Name & Dosage</label>
-              <input
-                type="text"
-                className={`form-input ${isAwaiting(formData.product_name) ? 'awaiting' : isExtracted ? 'highlighted' : ''}`}
-                value={formData.product_name || ''}
-                onChange={(e) => handleInputChange('product_name', e.target.value)}
-                placeholder="Awaiting AI extraction..."
-              />
-            </div>
-
-            {/* Batch Number */}
-            <div className="form-group">
-              <label className="form-label">Batch / Lot Number</label>
-              <input
-                type="text"
-                className={`form-input ${isAwaiting(formData.batch_number) ? 'awaiting' : isExtracted ? 'highlighted' : ''}`}
-                value={formData.batch_number || ''}
-                onChange={(e) => handleInputChange('batch_number', e.target.value)}
-                placeholder="Awaiting AI extraction..."
-              />
-            </div>
-
-            {/* Complaint Category */}
             <div className="form-group">
               <label className="form-label">Complaint Category</label>
               <input
                 type="text"
-                className={`form-input ${isAwaiting(formData.complaint_category) ? 'awaiting' : isExtracted ? 'highlighted' : ''}`}
+                className={`form-input ${isExtracted ? 'highlighted' : ''}`}
                 value={formData.complaint_category || ''}
                 onChange={(e) => handleInputChange('complaint_category', e.target.value)}
-                placeholder="Awaiting AI classification..."
-              />
-            </div>
-
-            {/* Manufacturing Date */}
-            <div className="form-group">
-              <label className="form-label">Manufacturing Date</label>
-              <input
-                type="text"
-                className={`form-input ${isAwaiting(formData.manufacturing_date) ? 'awaiting' : ''}`}
-                value={formData.manufacturing_date || ''}
-                onChange={(e) => handleInputChange('manufacturing_date', e.target.value)}
-                placeholder="Awaiting AI extraction..."
-              />
-            </div>
-
-            {/* Expiry Date */}
-            <div className="form-group">
-              <label className="form-label">Expiry Date</label>
-              <input
-                type="text"
-                className={`form-input ${isAwaiting(formData.expiry_date) ? 'awaiting' : ''}`}
-                value={formData.expiry_date || ''}
-                onChange={(e) => handleInputChange('expiry_date', e.target.value)}
-                placeholder="Awaiting AI extraction..."
-              />
-            </div>
-
-            {/* Facility */}
-            <div className="form-group">
-              <label className="form-label">Manufacturing Facility</label>
-              <input
-                type="text"
-                className={`form-input ${isAwaiting(formData.facility) ? 'awaiting' : ''}`}
-                value={formData.facility || ''}
-                onChange={(e) => handleInputChange('facility', e.target.value)}
-                placeholder="Awaiting AI extraction..."
-              />
-            </div>
-
-            {/* Impacted Material */}
-            <div className="form-group">
-              <label className="form-label">Impacted Material</label>
-              <input
-                type="text"
-                className={`form-input ${isAwaiting(formData.impacted_material) ? 'awaiting' : ''}`}
-                value={formData.impacted_material || ''}
-                onChange={(e) => handleInputChange('impacted_material', e.target.value)}
-                placeholder="Awaiting AI extraction..."
+                placeholder="e.g. Packaging Defect"
               />
             </div>
           </div>
 
-          {/* AI QMS Rewritten Summary */}
+          {/* 1 & 3. Product and Batch Identification */}
+          <div style={{ marginTop: '8px', marginBottom: '8px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-main)', borderBottom: '2px solid var(--border-color)', paddingBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Product & Batch Identification
+          </div>
+          <div className="form-grid">
+            <div className="form-group">
+              <label className="form-label">Product Name & Dosage</label>
+              <input
+                type="text"
+                className={`form-input ${isExtracted ? 'highlighted' : ''}`}
+                value={formData.product_name || ''}
+                onChange={(e) => handleInputChange('product_name', e.target.value)}
+                placeholder="e.g. Amoxicillin 500mg"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Batch / Lot Number</label>
+              <input
+                type="text"
+                className={`form-input ${isExtracted ? 'highlighted' : ''}`}
+                value={formData.batch_number || ''}
+                onChange={(e) => handleInputChange('batch_number', e.target.value)}
+                placeholder="e.g. AMX-2026"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Manufacturing Date</label>
+              <input
+                type="text"
+                className={`form-input ${isExtracted ? 'highlighted' : ''}`}
+                value={formData.manufacturing_date || ''}
+                onChange={(e) => handleInputChange('manufacturing_date', e.target.value)}
+                placeholder="e.g. Jan 2026"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Expiry Date</label>
+              <input
+                type="text"
+                className={`form-input ${isExtracted ? 'highlighted' : ''}`}
+                value={formData.expiry_date || ''}
+                onChange={(e) => handleInputChange('expiry_date', e.target.value)}
+                placeholder="e.g. Dec 2027"
+              />
+            </div>
+          </div>
+
+          {/* 2. Facility and Material Impact */}
+          <div style={{ marginTop: '8px', marginBottom: '8px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-main)', borderBottom: '2px solid var(--border-color)', paddingBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Facility & Material Impact
+          </div>
+          <div className="form-grid">
+            <div className="form-group">
+              <label className="form-label">Manufacturing Facility</label>
+              <input
+                type="text"
+                className={`form-input ${isExtracted ? 'highlighted' : ''}`}
+                value={formData.facility || ''}
+                onChange={(e) => handleInputChange('facility', e.target.value)}
+                placeholder="e.g. Main Unit 1"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Impacted Material</label>
+              <input
+                type="text"
+                className={`form-input ${isExtracted ? 'highlighted' : ''}`}
+                value={formData.impacted_material || ''}
+                onChange={(e) => handleInputChange('impacted_material', e.target.value)}
+                placeholder="e.g. Blister Foil Seal"
+              />
+            </div>
+          </div>
+
+          {/* 4. Complaint Description */}
+          <div style={{ marginTop: '8px', marginBottom: '8px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-main)', borderBottom: '2px solid var(--border-color)', paddingBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Complaint Description
+          </div>
           <div className="form-group full-width">
             <label className="form-label">
               <span>QMS Formal Description (AI Rewritten)</span>
@@ -168,16 +172,16 @@ export const ComplaintForm = () => {
             </label>
             <textarea
               rows={3}
-              className={`form-textarea ${isAwaiting(formData.qms_summary) ? 'awaiting' : isExtracted ? 'highlighted' : ''}`}
+              className={`form-textarea ${isExtracted ? 'highlighted' : ''}`}
               value={formData.qms_summary || ''}
               onChange={(e) => handleInputChange('qms_summary', e.target.value)}
-              placeholder="Awaiting AI extraction..."
+              placeholder="QMS complaint summary will be generated here by AI..."
             />
           </div>
 
           {/* Severity & Risk Assessment */}
           <div style={{ 
-            background: 'rgba(15, 23, 42, 0.6)', 
+            background: 'var(--bg-subtle, #f1f5f9)', 
             border: '1px solid var(--border-color)', 
             borderRadius: 'var(--radius-md)', 
             padding: '16px',
@@ -191,7 +195,7 @@ export const ComplaintForm = () => {
                 <span>AI Risk & Severity Evaluation</span>
               </div>
               <div className={getSeverityBadgeClass(formData.suggested_severity)}>
-                {formData.suggested_severity || 'Awaiting'}
+                {formData.suggested_severity || 'Pending'}
               </div>
             </div>
 
@@ -199,10 +203,10 @@ export const ComplaintForm = () => {
               <label className="form-label">Potential Root Cause / Risk Assessment</label>
               <textarea
                 rows={2}
-                className={`form-textarea ${isAwaiting(formData.risk_assessment) ? 'awaiting' : ''}`}
+                className="form-textarea"
                 value={formData.risk_assessment || ''}
                 onChange={(e) => handleInputChange('risk_assessment', e.target.value)}
-                placeholder="Awaiting AI extraction..."
+                placeholder="Engineering risk assessment will appear here..."
               />
             </div>
 
@@ -210,10 +214,10 @@ export const ComplaintForm = () => {
               <label className="form-label">Recommended Next Action Step</label>
               <input
                 type="text"
-                className={`form-input ${isAwaiting(formData.recommended_action) ? 'awaiting' : ''}`}
+                className="form-input"
                 value={formData.recommended_action || ''}
                 onChange={(e) => handleInputChange('recommended_action', e.target.value)}
-                placeholder="Awaiting AI extraction..."
+                placeholder="Recommended SOP next steps..."
               />
             </div>
           </div>

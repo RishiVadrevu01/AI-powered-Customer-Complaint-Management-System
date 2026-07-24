@@ -26,10 +26,11 @@ workflow.add_edge("recommend_next_action", END)
 # Compile Workflow
 complaint_workflow = workflow.compile()
 
-def process_complaint_workflow(raw_text: str) -> dict:
+def process_complaint_workflow(raw_text: str, existing_form_data: dict = None) -> dict:
     """Executes the full LangGraph state graph pipeline."""
     initial_state = {
         "raw_text": raw_text,
+        "existing_form_data": existing_form_data,
         "customer_name": None,
         "product_name": None,
         "batch_number": None,
@@ -47,3 +48,4 @@ def process_complaint_workflow(raw_text: str) -> dict:
     
     result = complaint_workflow.invoke(initial_state)
     return result
+

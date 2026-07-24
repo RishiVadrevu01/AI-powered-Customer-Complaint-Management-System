@@ -4,27 +4,30 @@ import axios from 'axios';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
 const initialExtractedData = {
-  customer_name: "Awaiting AI extraction...",
-  product_name: "Awaiting AI extraction...",
-  batch_number: "Awaiting AI extraction...",
-  manufacturing_date: "Awaiting AI extraction...",
-  expiry_date: "Awaiting AI extraction...",
-  facility: "Awaiting AI extraction...",
-  impacted_material: "Awaiting AI extraction...",
-  complaint_category: "Awaiting AI classification...",
+  customer_name: "",
+  product_name: "",
+  batch_number: "",
+  manufacturing_date: "",
+  expiry_date: "",
+  facility: "",
+  impacted_material: "",
+  complaint_category: "",
   raw_complaint_text: "",
-  qms_summary: "Awaiting AI extraction...",
-  suggested_severity: "Awaiting AI classification...",
-  risk_assessment: "Awaiting AI extraction...",
-  recommended_action: "Awaiting AI extraction..."
+  qms_summary: "",
+  suggested_severity: "",
+  risk_assessment: "",
+  recommended_action: ""
 };
 
 export const processComplaint = createAsyncThunk(
   'complaint/processComplaint',
-  async (text, { rejectWithValue }) => {
+  async (text, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
+      const current_form_data = state.complaint.isExtracted ? state.complaint.formData : null;
       const response = await axios.post(`${API_BASE_URL}/complaints/process`, {
-        complaint_text: text
+        complaint_text: text,
+        current_form_data: current_form_data
       });
       return response.data;
     } catch (err) {
@@ -32,6 +35,7 @@ export const processComplaint = createAsyncThunk(
     }
   }
 );
+
 
 export const uploadComplaintDoc = createAsyncThunk(
   'complaint/uploadComplaintDoc',

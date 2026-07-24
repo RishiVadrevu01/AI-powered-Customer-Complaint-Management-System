@@ -2,6 +2,7 @@ from typing import TypedDict, Optional
 
 class ComplaintState(TypedDict):
     raw_text: str
+    existing_form_data: Optional[dict]
     customer_name: Optional[str]
     product_name: Optional[str]
     batch_number: Optional[str]

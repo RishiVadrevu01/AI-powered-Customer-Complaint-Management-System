@@ -79,7 +79,7 @@ export const QMSLedgerModal = () => {
                       </span>
                     </td>
                     <td style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                      {new Date(item.created_at || Date.now()).toLocaleString()}
+                      {new Date(item.created_at ? (item.created_at.endsWith('Z') ? item.created_at : item.created_at + 'Z') : Date.now()).toLocaleString()}
                     </td>
                   </tr>
                 ))}

@@ -8,6 +8,9 @@
 
 An enterprise-grade **AI Copilot Web Application** designed for pharmaceutical **Quality Management System (QMS)** complaint intake. Powered by **LangGraph**, **FastAPI**, **PostgreSQL**, and **React + Redux Toolkit**, it automates the extraction, risk assessment, and formal documentation of customer complaints while keeping human quality agents in the loop.
 
+### 🎥 Watch the Demo
+[![AIVOA Demo Video](https://img.youtube.com/vi/HkvBCoAedxY/maxresdefault.jpg)](https://youtu.be/HkvBCoAedxY)
+
 ---
 
 ## 🌟 Key Features

@@ -108,13 +108,20 @@ export const AICopilotChat = () => {
           ))}
 
           {loading && (
-            <div className="chat-bubble assistant" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Loader2 size={18} className="animate-spin" style={{ color: 'var(--accent-cyan)' }} />
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                LangGraph state graph executing: Parsing complaint, extracting entities, evaluating risk...
-              </span>
+            <div className="chat-bubble assistant">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px', fontSize: '0.75rem', opacity: 0.8 }}>
+                <Bot size={14} />
+                <span style={{ fontWeight: 600 }}>AI Copilot</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--accent-blue)', fontWeight: 500 }}>is thinking...</span>
+              </div>
+              <div className="typing-indicator">
+                <span className="typing-dot"></span>
+                <span className="typing-dot"></span>
+                <span className="typing-dot"></span>
+              </div>
             </div>
           )}
+
 
           <div ref={messagesEndRef} />
         </div>
